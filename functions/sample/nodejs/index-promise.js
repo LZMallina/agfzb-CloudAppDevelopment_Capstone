@@ -15,7 +15,7 @@ function main(params) {
     return new Promise(function (resolve, reject) {
         const { CloudantV1 } = require('@ibm-cloud/cloudant');
         const { IamAuthenticator } = require('ibm-cloud-sdk-core');
-        const authenticator = new IamAuthenticator({ apikey: "KDDy7JeifWad3-qZ_a44oSCdSQJJjsoV3g6DOqhoVsqu" })
+        const authenticator = new IamAuthenticator({ apikey: "I_AM_API_KEY" })
         const cloudant = CloudantV1.newInstance({
             authenticator: authenticator
         });
