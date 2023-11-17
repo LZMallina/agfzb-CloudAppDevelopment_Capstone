@@ -85,8 +85,11 @@ cat ./reviews.json | couchimport --type "json" --jsonpath "reviews.*" --database
 
 * Get the endpoint URL's
 
-Get all dealership endpoint: <https://us-south.functions.appdomain.cloud/api/v1/web/cebe1001-00af-4035-b9fc-dce1468a7b18/dealership-package/get-dealership>
+* Get specific state Endpoint: /api/dealership?state=""
+ In browser, copy and paste getAllDealership url link, ?st=State
 
+ Get all dealership endpoint: <https://us-south.functions.appdomain.cloud/api/v1/web/cebe1001-00af-4035-b9fc-dce1468a7b18/dealership-package/get-State>
 
+ Get specific state dealership endpoint: <https://us-south.functions.appdomain.cloud/api/v1/web/cebe1001-00af-4035-b9fc-dce1468a7b18/dealership-package/get-State?st=CA>
 
 
