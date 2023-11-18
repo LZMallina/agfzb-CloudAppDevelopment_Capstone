@@ -8,7 +8,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 def main(dict):
     
-    authenticator = IAMAuthenticator('KDDy7JeifWad3-qZ_a44oSCdSQJJjsoV3g6DOqhoVsqu')
+    authenticator = IAMAuthenticator('I_AM_API_KEY')
     cloudant = CloudantV1(authenticator=authenticator)
     cloudant.set_service_url("https://c0973199-be03-41ac-936f-8ee189aea9c2-bluemix.cloudantnosqldb.appdomain.cloud")
     
