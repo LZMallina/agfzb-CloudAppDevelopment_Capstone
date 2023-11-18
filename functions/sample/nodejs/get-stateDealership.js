@@ -1,4 +1,5 @@
-/**THIS IS CODE TO BE USED INSIDE OF IBM CLOUD FUNCTION */
+/**MY CODE TO BE USED INSIDE OF IBM CLOUD FUNCTION **/
+
 const { CloudantV1 } = require("@ibm-cloud/cloudant");
 const { IamAuthenticator } = require("ibm-cloud-sdk-core");
 

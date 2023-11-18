@@ -1,15 +1,7 @@
 /**
- * Get all dealerships - CODES TO BE USED INSIDE OF IBMCloud
+ * Get all dealerships - Sample code provided by support when code from lesson didn't work
  */
-/**
-  *
-  * main() will be run when you invoke this action
-  *
-  * @param Cloud Functions actions accept a single parameter, which must be a JSON object.
-  *
-  * @return The output of this action, which must be a JSON object.
-  *
-  */
+
 function main(params) {
     // console.log(params);
     return new Promise(function (resolve, reject) {
