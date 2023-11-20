@@ -1,5 +1,5 @@
 /**
- * MY CODE TO BE USED IN IBM CLOUD
+ * MY CODE TO BE USED IN IBM CLOUD.  Invoke with no parameter
 /
 /**
  * Get all dealerships

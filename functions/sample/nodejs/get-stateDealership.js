@@ -1,4 +1,5 @@
 /**MY CODE TO BE USED INSIDE OF IBM CLOUD FUNCTION **/
+//Invoke with parameter {"st":"CA"}
 
 const { CloudantV1 } = require("@ibm-cloud/cloudant");
 const { IamAuthenticator } = require("ibm-cloud-sdk-core");
