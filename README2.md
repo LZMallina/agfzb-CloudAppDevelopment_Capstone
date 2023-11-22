@@ -92,4 +92,36 @@ cat ./reviews.json | couchimport --type "json" --jsonpath "reviews.*" --database
 
  Get specific state dealership endpoint: <https://us-south.functions.appdomain.cloud/api/v1/web/cebe1001-00af-4035-b9fc-dce1468a7b18/dealership-package/get-State?st=CA>
 
+## Build CarModel and CarMake Django Models
+
+* Environment Setup
+
+1. follow week 1 and week 2 instructions
+
+2. Start PostgreSQL in Theia.  Store the username and password for later use.
+
+* connect PostgreSQL to your program by open settings.py, find DATABASES and replace the value of the password with PostgreSQL generated password.
+
+3. Return Theia directory /home/project and run: 
+
+pip install --upgrade distro-info
+pip3 install --upgrade pip==23.2.1
+pip install virtualenv
+virtualenv djangoenv
+source djangoenv/bin/activate
+pip install Django psycopg2-binary
+
+4. move back to server folder for development
+
+5. update djangoapp/models.py with carMake model and carModel
+
+* run migrations for the models:
+
+python3 manage.py makemigrations
+
+python3 manage.py migrate
+
+## Register CarMake and CarModel models with the admin site
+
+1. Follow week 2 to create superuser.  username: root, email: root@example.com, password: root.  Bypass password: yes
 
