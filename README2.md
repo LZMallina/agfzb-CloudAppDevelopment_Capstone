@@ -121,3 +121,6 @@ python3 manage.py makemigrations djangoapp
 python3 manage.py migrate --run-syncdb  
 
 python3 manage.py migrate djangoapp
+
+## Create Django Proxy Services of Cloud Functions
+
