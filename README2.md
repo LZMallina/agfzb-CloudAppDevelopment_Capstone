@@ -15,7 +15,7 @@ git push
 
 ## Clone repository
 
-git clone <your_repo_name>
+git clone <https://github.com/LZMallina/ibm-CloudAppDevelopment_Capstone.git>
 
 ## Run the Django app on development server
 
