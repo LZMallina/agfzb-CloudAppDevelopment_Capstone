@@ -1,7 +1,10 @@
 import requests
 import json
-from .models import CarDealer
+from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
 
 #Create a 'get_request' to make HTTP GET requests
 def get_request(url, **kwargs):
@@ -27,7 +30,16 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
-
+def post_request(url, json_payload, **kwargs):
+    
+    try:
+        response = requests.post(url, params=kwargs, json=json_payload)
+        status_code = response.status_code
+        json_data = json.load(response.text)
+        return json_data
+    except:
+        print("Something went wrong")
+        return None
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 # - Call get_request() with specified arguments (State)
@@ -62,37 +74,50 @@ def get_dealers_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
 # - Parse JSON results into a DealerView object list
 
-def get_dealers_reviews_from_cf(url, **kwargs):
+def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
     results = []
-    dealer_id = kwargs.get("id")
-    # Call get_request with a URL parameter
-    if dealer_id:
-        json_result = get_request(url, dealerId=dealer_id)
-    else:    
-        json_result = get_request(url)
+    json_result = get_request(url, id=dealer_id)
 
     if json_result:
         # Get the row list in JSON as dealers
         reviews = json_result
-        print(reviews)
+        
         # For each dealer object
         for review in reviews:
             # Get its content in `doc` object
             review_doc = review
-            # Create a CarDealer object with values in `doc` object
-            dealerReview_obj = DealerReview(dearlership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"],
+            sentiment=analyze_review_sentiments(review_doc["review"])
+            # Create a DealerReview object with values in `doc` object
+            dealerReview_obj = DealerReview(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"],
                                    review=review_doc["review"], purchase_date=review_doc["purchase_date"], car_make=review_doc["car_make"],
                                    car_model=review_doc["car_model"],
-                                   car_year=review_doc["car_year"], sentiment=review_doc["sentiment"], id=review.doc['id'])
+                                   car_year=review_doc["car_year"], sentiment = sentiment,id=review_doc['id'])
             results.append(dealerReview_obj)
 
     return results
 
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
-# def analyze_review_sentiments(text):
-# - Call get_request() with specified arguments
-# - Get the returned sentiment label such as Positive or Negative
+def analyze_review_sentiments(dealerreview):
+    url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/f12c0902-455f-4c31-92fa-de6dce857143"
+    api_key = "sSFTUPEM7iqJ4TAqvN8HY3xqyXLumFLkuHCpO112tecc"
+    authenticator = IAMAuthenticator(api_key)
+    natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01', authenticator=authenticator)
+    natural_language_understanding.set_service_url(url)
+    
+    response = natural_language_understanding.analyze(
+        text=dealerreview,
+        features=Features(sentiment=SentimentOptions(targets=[dealerreview])),
+        language="en"
+    ).get_result()
+    
+    
+    label = response['sentiment']['document']['label']
+
+    return label
+
+
+
 
 
 
