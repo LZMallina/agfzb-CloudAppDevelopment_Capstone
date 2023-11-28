@@ -2,13 +2,14 @@
 # Invoke with parameter {"dealerId": "2"}, otherwise, you will get error: deadlerId not found
 
 
+
 import sys 
 from ibmcloudant.cloudant_v1 import CloudantV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 def main(dict):
     
-    authenticator = IAMAuthenticator('I_AM_API_KEY')
+    authenticator = IAMAuthenticator('KDDy7JeifWad3-qZ_a44oSCdSQJJjsoV3g6DOqhoVsqu')
     cloudant = CloudantV1(authenticator=authenticator)
     cloudant.set_service_url("https://c0973199-be03-41ac-936f-8ee189aea9c2-bluemix.cloudantnosqldb.appdomain.cloud")
     
@@ -28,10 +29,16 @@ def main(dict):
     
     """Format result"""
     formatResult = []
-    
-    for row in response:
-        doc = row['doc']
-        if doc['id'] == int(dict['dealerId']):
+    if 'dealerId' in dict:
+        for row in response:
+            doc = row['doc']
+            if doc['id'] == int(dict['dealerId']):
+                doc.pop('_id')
+                doc.pop('_rev')
+                formatResult.append(doc)
+    else:
+        for row in response:
+            doc = row['doc']
             doc.pop('_id')
             doc.pop('_rev')
             formatResult.append(doc)
@@ -42,4 +49,3 @@ def main(dict):
     return {'headers': {'Content-Type':'application/json'}, 
             'body': formatResult, 
             }
-            
