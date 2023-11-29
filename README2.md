@@ -133,3 +133,5 @@ python3 manage.py migrate djangoapp
 ## Create a dealership Bootrap table
 
 ## Create a dealer details/reviews page
+
+## Create a review submission page

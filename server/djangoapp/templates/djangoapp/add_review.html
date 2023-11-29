@@ -11,7 +11,52 @@
 
 </head>
     <body>
+    <!--Nav bar-->
+    <nav class="navbar navbar-expand-sm bg-none bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Home</a>
+            </li>
+        </ul>
+    </nav>
     <!--Add review form here -->
-    <h1>This is the add review page</h1>
+    <div class ="container">
+        <h2>Add a review about {{dealership_name}}</h2>
+        <form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <div>
+                    <label for="content"><b>Enter the review content:</b></label>
+                    <textarea class="form-control" id="content" name="content" rows="2" required></textarea>
+                </div>
+                <div class ="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
+                    <label for="purchasecheck">Has purchase the car from {{dealership_name}}?</label>
+                    <label class="text-muted">(select purchased car information below if checked)</label>
+                </div>
+                <div class="mt-2">
+                    <label for="car"><b>Select your car (model-make-year):</b></label>
+                    <select name="car" id="car" class="form-select" required>
+                        {% for car in cars %}
+                            <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                        {% endfor %}
+                   </select>
+                </div>
+                <div class ="mt-2">
+                    <label for="purchasedate"><b>Enter Your Purchase Date (MM/DD/YYYY):</b></label>
+                    <input class="date-own form-control" type="text" name="purchasedate" id="purchasedate">
+                </div>
+            
+                
+                <button class="btn btn-primary mt-2" type="submit">Submit Review</button>
+                
+            </div>
+        </form>
+    </div>
     </body>
+    <script type="text/javascript">
+        $('.date-own').datepicker({
+           format: 'mm/dd/yyyy'
+         });
+   </script>
 </html>
