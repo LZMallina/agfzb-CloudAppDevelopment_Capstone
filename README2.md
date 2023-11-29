@@ -124,3 +124,12 @@ python3 manage.py migrate djangoapp
 
 ## Create Django Proxy Services of Cloud Functions
 
+# Week 4: Add Dynamic pages
+
+## Environment setup
+
+* git clone and migrate with commands from week 1 and week 3.
+
+## Create a dealership Bootrap table
+
+## Create a dealer details/reviews page

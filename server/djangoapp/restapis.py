@@ -81,19 +81,37 @@ def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
     if json_result:
         # Get the row list in JSON as dealers
         reviews = json_result
-        
+        # remove duplicates in reviews
+        nodup_reviews =[i for n, i in enumerate(reviews) if i not in reviews[:n]]
         # For each dealer object
-        for review in reviews:
+        for review in nodup_reviews:
             # Get its content in `doc` object
             review_doc = review
             sentiment=analyze_review_sentiments(review_doc["review"])
             # Create a DealerReview object with values in `doc` object
+            if "purchase_date" in review_doc:
+                purchase_date = review_doc['purchase_date']
+            else:
+                purchase_date = "00/00/000"
+            if "car_make" in review_doc:
+                car_make = review_doc['car_make']
+            else:
+                car_make = "None"
+            if "car_model" in review_doc:
+                car_model = review_doc['car_model']
+            else:
+                car_model = "None"
+            if "car_year" in review_doc:
+                car_year = review_doc['car_year']
+            else:
+                car_year = 0000
+            
             dealerReview_obj = DealerReview(dealership=review_doc["dealership"], name=review_doc["name"], purchase=review_doc["purchase"],
-                                   review=review_doc["review"], purchase_date=review_doc["purchase_date"], car_make=review_doc["car_make"],
-                                   car_model=review_doc["car_model"],
-                                   car_year=review_doc["car_year"], sentiment = sentiment,id=review_doc['id'])
+                                review=review_doc["review"], purchase_date=purchase_date, car_make=car_make,
+                                car_model=car_model,
+                                car_year=car_year, sentiment = sentiment,id=review_doc['id'])
             results.append(dealerReview_obj)
-
+            
     return results
 
 

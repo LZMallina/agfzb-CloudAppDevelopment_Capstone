@@ -26,7 +26,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                 <li>
-                    <a class="btn btn-warning" method="GET" href="{% url 'djangoapp:add_review' dealer_id=1 %}">Add Review</a>
+                    <a class="btn btn-warning" method="GET" href="{% url 'djangoapp:add_review' dealer_id=dealer_id %}">Add Review</a>
                     <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
                     <a class="btn btn-primary" href="{% url 'djangoapp:logout' %}">Logout</a>
                 </li>
@@ -47,30 +47,38 @@
         </div>
     </nav>
     <!-- Add reviews as cards -->
-    <div class ="card">
+    <h2 class="text-center">{{dealership_name}}</h2>
+    <div class ="container mt=1">
         {% with cards_per_row=4 %}
-        {% for review in dealer_reviews %}
-            <h2>Review for {{review.id}}</h2>
-          {% if forloop.counter0|divisibleby:cards_per_row %}
-            <div class="card-group" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-          {% endif %}
-          
-          <div class="card m-2 border" style="width: calc(25% - 1rem);">
-              <div class="card-header text-left">
-                  <img class="card-img-top" src="{% if 'normal' in review.review|lower %}{{ MEDIA_URL }}/emoji/neutral.png{% elif review.sentiment == 'positive' %}{{ MEDIA_URL }}/emoji/positive.png{% elif review.sentiment == 'negative' %}{{ MEDIA_URL }}/emoji/negative.png{% else %}{{ MEDIA_URL }}/emoji/neutral.png{% endif %}" alt="Sentiment Emoji" style="width: 25px; height: 25px;">
-              </div>
-              <div class="card-body bg-light">
-                  <h5 class="card-title">{{ review.car_make }} {{ review.car_model }} ({{ review.car_year }})</h5>
-                  <p class="card-text">{{ review.review }}</p>
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-          </div>
-          
-          {% if forloop.counter|divisibleby:cards_per_row or forloop.last %}
+            {% for review in dealer_reviews %}
+                {% if forloop.counter0|divisibleby:cards_per_row %}
+                <div class="card-group" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                {% endif %}
+
+                {% if review.dealership == dealer_id%}
+                    <div class="card m-2 border" style="padding:20px; width:300px;">
+                        {% if review.sentiment == 'positive' %}
+                            <img class ="card-img-top" src="{{MEDIA_URL}}/emoji/positive.png" style="width: 25px; height: 25px;"/>
+                        {% endif %}
+                        {% if review.sentiment == 'neutral' %}
+                            <img class ="card-img-left" src="{{MEDIA_URL}}/emoji/neutral.png" style="width: 25px; height: 25px;"/>
+                        {% endif %}
+                        {% if review.sentiment == 'negative' %}
+                            <img class ="card-img-left" src="{{MEDIA_URL}}/emoji/negative.png" style="width: 25px; height: 25px;"/>
+                        {% endif %}
+
+                        <div class ="card-body bg-light" >
+                            <h5 class="card-title">{{review.car_model}} {{review.car_make}}</h5>
+                            <h5 class="card-title">{{review.car_year}}</h5>
+                            <p card-text>{{review.review}}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% if forloop.counter|divisibleby:cards_per_row or forloop.last %}
             </div>
-          {% endif %}
+            {% endif %}
         {% endfor %}
-      {% endwith %}
+    {% endwith %}
     </div>
         
 </body>
