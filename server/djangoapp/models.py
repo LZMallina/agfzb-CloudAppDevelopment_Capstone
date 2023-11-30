@@ -1,39 +1,42 @@
 from django.db import models
 from django.utils.timezone import now
+import datetime
 
 
 # Create your models here.
 
 # CarMake model
 class CarMake(models.Model):
-    name = models.CharField(null=False, max_length=30)
-    description = models.CharField(null=False, max_length=30)
+    name = models.CharField(null=False, max_length=30, default="")
+    description = models.CharField(null=False, max_length=30, default="")
     
     
     # Create a toString method for object string representation
     def __str__(self):
-        return "Name: " + self.name + "," + \
+        return "Make: " + self.name + "," + \
             "Description: " + self.description
 
 
 # CarModel class: Many-To-One relationship to CarMake Model
 
 class CarModel(models.Model):
-    carmodel = models.ForeignKey(CarMake, null=True, on_delete=models.CASCADE)
-    dealerId = models.IntegerField(null=False)
-    name = models.CharField(null=False, max_length=30)
+    car_make = models.ForeignKey(CarMake, null=True, on_delete=models.CASCADE, default="")
+    dealerId = models.IntegerField(null=False, default=1)
+    car_name = models.CharField(null=False, max_length=30,default="")
     TYPE_CHOICE = (
         ('SEDAN', 'sedan'), 
         ('SUV','suv'),
         ('WAGON','wagon'),
         )
     type = models.CharField(null=False, max_length=30, choices=TYPE_CHOICE) 
-    
+    year = models.IntegerField()
+
     # Create a toString method for object string representation
     def __str__(self):
         return "Name: " + self.name + "," + \
             "Type: " + self.type + "," + \
-            "DealerId: " + str(self.dealerId)
+            "DealerId: " + str(self.dealerId) + \
+            "Year: " + str(self.year)
 
 
 # <HINT> Create a plain Python class `CarDealer` to hold dealer data
