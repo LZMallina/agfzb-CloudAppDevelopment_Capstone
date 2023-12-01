@@ -35,15 +35,15 @@
                     <label class="text-muted">(select purchased car information below if checked)</label>
                 </div>
                 <div class="mt-2">
-                    <label for="car"><b>Select your car (model-make-year):</b></label>
-                    <select name="car" id="car" class="form-select" required>
+                    <label for="car_model"><b>Select your car (model-make-year):</b></label>
+                    <select name="car_model" id="car_model" class="form-select" required>
                         {% for car in cars %}
-                            <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                            <option selected value={{car.id}}>{{car.car_make}}-{{car.car_name}}-{{ car.year|date:"Y" }}</option>
                         {% endfor %}
                    </select>
                 </div>
                 <div class ="mt-2">
-                    <label for="purchasedate"><b>Enter Your Purchase Date (MM/DD/YYYY):</b></label>
+                    <label for="purchasedate"><b>Select Your Purchase Date (MM/DD/YYYY):</b></label>
                     <input class="date-own form-control" type="text" name="purchasedate" id="purchasedate">
                 </div>
             

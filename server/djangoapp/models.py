@@ -13,8 +13,7 @@ class CarMake(models.Model):
     
     # Create a toString method for object string representation
     def __str__(self):
-        return "Make: " + self.name + "," + \
-            "Description: " + self.description
+        return self.name + "," + self.description
 
 
 # CarModel class: Many-To-One relationship to CarMake Model
@@ -28,15 +27,17 @@ class CarModel(models.Model):
         ('SUV','suv'),
         ('WAGON','wagon'),
         )
+    
+    YEAR_CHOICES = []
+    for r in range(1990, (datetime.datetime.now().year+1)):
+        YEAR_CHOICES.append((r, r))
+        
     type = models.CharField(null=False, max_length=30, choices=TYPE_CHOICE) 
-    year = models.IntegerField()
+    year = models.IntegerField(('year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
 
     # Create a toString method for object string representation
     def __str__(self):
-        return "Name: " + self.name + "," + \
-            "Type: " + self.type + "," + \
-            "DealerId: " + str(self.dealerId) + \
-            "Year: " + str(self.year)
+        return self.car_make + "," + self.car_name + "," + self.type + "," + str(self.dealerId) + "," + str(self.year)
 
 
 # <HINT> Create a plain Python class `CarDealer` to hold dealer data
