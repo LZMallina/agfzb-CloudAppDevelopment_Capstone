@@ -13,7 +13,7 @@ class CarMake(models.Model):
     
     # Create a toString method for object string representation
     def __str__(self):
-        return self.name + "," + self.description
+        return f"{self.name} {self.description}"
 
 
 # CarModel class: Many-To-One relationship to CarMake Model
@@ -21,7 +21,8 @@ class CarMake(models.Model):
 class CarModel(models.Model):
     car_make = models.ForeignKey(CarMake, null=True, on_delete=models.CASCADE, default="")
     dealerId = models.IntegerField(null=False, default=1)
-    car_name = models.CharField(null=False, max_length=30,default="")
+    car_model = models.CharField(null=False, max_length=30,default="")
+    
     TYPE_CHOICE = (
         ('SEDAN', 'sedan'), 
         ('SUV','suv'),
@@ -32,12 +33,12 @@ class CarModel(models.Model):
     for r in range(1990, (datetime.datetime.now().year+1)):
         YEAR_CHOICES.append((r, r))
         
-    type = models.CharField(null=False, max_length=30, choices=TYPE_CHOICE) 
+    car_type = models.CharField(null=False, max_length=30, choices=TYPE_CHOICE) 
     year = models.IntegerField(('year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
 
     # Create a toString method for object string representation
     def __str__(self):
-        return self.car_make + "," + self.car_name + "," + self.type + "," + str(self.dealerId) + "," + str(self.year)
+        return f"{self.car_make} {self.car_model} {self.dealerId} {self.year} {self.car_type}"
 
 
 # <HINT> Create a plain Python class `CarDealer` to hold dealer data
