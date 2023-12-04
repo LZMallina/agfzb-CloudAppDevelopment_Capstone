@@ -135,3 +135,58 @@ python3 manage.py migrate djangoapp
 ## Create a dealer details/reviews page
 
 ## Create a review submission page
+
+# Week 5: Containerize your application
+
+## Create container
+
+1. makesure you're in the server folder.
+
+2. Run the below commands:
+
+$ kubectl get deployments
+
+* copy your namespace: sn-labs-lzkrishmom namespace
+
+* if dealership deployment already exists, delete with code below:
+
+$ kubectl delete deployment dealership
+
+$ ibmcloud cr images
+
+* if there are dealership images, delete it using command below:
+
+$ ibmcloud cr image-rm us.icr.io/<your sn labs namespace>/dealership:latest && docker rmi us.icr.io/<your sn labs namespace>/dealership:latest
+
+## Add Dockerfile
+
+1) make entrypoint.sh executable
+
+$ chmod +x ./entrypoint.sh
+
+## Push built image to container registry
+
+1) Get your namespace from ibmcloud:
+
+$ MY_NAMESPACE=$(ibmcloud cr namespaces | grep sn-labs-)
+echo $MY_NAMESPACE
+
+2) Perform a docker build with the Dockerfile (You don't need to replace $MY_NAMESPACE).  Use the command below as it is.
+
+$ docker build -t us.icr.io/$MY_NAMESPACE/dealership .
+
+3) Push the image into the container registry:
+
+$ docker push us.icr.io/$MY_NAMESPACE/dealership
+
+## Add deployment artifacts
+
+1) create deployment.yaml file in server folder
+
+## Deploy the application
+
+$ kubectl apply -f deployment.yaml
+
+$ kubectl port-forward deployment.apps/dealership 8000:8000
+
+
